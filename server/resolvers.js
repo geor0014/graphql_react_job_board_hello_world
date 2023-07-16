@@ -7,6 +7,11 @@ export const resolvers = {
     company: (parent, args) => Company.findById(args.id),
   },
 
+  Mutation: {
+    createJob: (parent, { title, companyId, description }) =>
+      Job.create({ title, companyId, description }),
+  },
+
   Job: {
     //   in this case the parent is each job object in the array of jobs returned from the resolver for the jobs query
     company: async (parent) => Company.findById(parent.companyId),
