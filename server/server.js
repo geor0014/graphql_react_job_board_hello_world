@@ -12,7 +12,9 @@ const JWT_SECRET = Buffer.from("Zn8Q5tyZ/G1MHltc4F/gTkVJMlrbKiZt", "base64");
 
 const app = express();
 app.use(
-  cors(),
+  cors <
+    cors.CorsRequest >
+    { origin: ["http://localhost:3000", "https://studio.apollographql.com"] },
   express.json(),
   expressjwt({
     algorithms: ["HS256"],

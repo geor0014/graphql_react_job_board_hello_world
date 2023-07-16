@@ -55,3 +55,17 @@ export async function getCompany(id) {
   const { company } = await request(GRAPHQL_URL, query, variables);
   return company;
 }
+
+export async function createJob(input) {
+  // job: is an alias for the job object that is returned from the createJob mutation
+  const mutation = gql`
+    mutation CreateJobMutation($input: CreateJobInput!) {
+      job: createJob(input: $input) {
+        id
+      }
+    }
+  `;
+  const variables = { input };
+  const { job } = await request(GRAPHQL_URL, mutation, variables);
+  return job;
+}
