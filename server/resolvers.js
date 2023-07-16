@@ -4,6 +4,7 @@ export const resolvers = {
   Query: {
     job: (parent, args) => Job.findById(args.id),
     jobs: async () => Job.findAll(),
+    company: (parent, args) => Company.findById(args.id),
   },
 
   Job: {
