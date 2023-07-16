@@ -11,4 +11,8 @@ export const resolvers = {
     //   in this case the parent is each job object in the array of jobs returned from the resolver for the jobs query
     company: async (parent) => Company.findById(parent.companyId),
   },
+
+  Company: {
+    jobs: async (parent) => Job.findAll((job) => job.companyId === parent.id),
+  },
 };
