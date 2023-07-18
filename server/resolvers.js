@@ -12,8 +12,28 @@ export const resolvers = {
       if (!context.user) throw new Error("Not authenticated");
       return Job.create({ ...input, companyId: context.user.companyId });
     },
-    deleteJob: (parent, { id }) => Job.delete(id),
-    updateJob: (parent, { input }) => Job.update(input),
+    deleteJob: async (parent, { id }) => {
+      // check if the user is authenticated and owns the job
+      if (!context.user) throw new Error("Not authenticated");
+
+      const job = await Job.findById(id);
+
+      if (context.user.companyId !== job.companyId) {
+        throw new Error("User not authorized");
+      }
+      return Job.delete(id);
+    },
+    updateJob: async (parent, { input }) => {
+      if (!context.user) throw new Error("Not authenticated");
+
+      const job = await Job.findById(input.id);
+
+      if (context.user.companyId !== job.companyId) {
+        throw new Error("User not authorized");
+      }
+
+      return Job.update({ ...input, companyId: context.user.companyId });
+    },
   },
 
   Job: {
