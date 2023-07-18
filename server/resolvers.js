@@ -9,8 +9,8 @@ export const resolvers = {
 
   Mutation: {
     createJob: (parent, { input }, context) => {
-      if (!context.auth) throw new Error("Not authenticated");
-      return Job.create(input);
+      if (!context.user) throw new Error("Not authenticated");
+      return Job.create({ ...input, companyId: context.user.companyId });
     },
     deleteJob: (parent, { id }) => Job.delete(id),
     updateJob: (parent, { input }) => Job.update(input),
