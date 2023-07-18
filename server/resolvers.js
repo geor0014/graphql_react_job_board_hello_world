@@ -10,6 +10,7 @@ export const resolvers = {
   Mutation: {
     createJob: (parent, { input }) => Job.create(input),
     deleteJob: (parent, { id }) => Job.delete(id),
+    updateJob: (parent, { input }) => Job.update(input),
   },
 
   Job: {
