@@ -8,7 +8,10 @@ export const resolvers = {
   },
 
   Mutation: {
-    createJob: (parent, { input }) => Job.create(input),
+    createJob: (parent, { input }, context) => {
+      if (!context.auth) throw new Error("Not authenticated");
+      return Job.create(input);
+    },
     deleteJob: (parent, { id }) => Job.delete(id),
     updateJob: (parent, { input }) => Job.update(input),
   },

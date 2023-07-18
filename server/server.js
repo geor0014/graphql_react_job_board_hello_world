@@ -11,10 +11,13 @@ const PORT = 9000;
 const JWT_SECRET = Buffer.from("Zn8Q5tyZ/G1MHltc4F/gTkVJMlrbKiZt", "base64");
 
 const app = express();
+
+const corsOptions = {
+  origin: "*", // NOTE: this is a very permissive CORS policy
+};
+
 app.use(
-  cors <
-    cors.CorsRequest >
-    { origin: ["http://localhost:3000", "https://studio.apollographql.com"] },
+  cors(corsOptions),
   express.json(),
   expressjwt({
     algorithms: ["HS256"],
@@ -35,7 +38,8 @@ app.post("/login", async (req, res) => {
 });
 
 const typeDefs = await readFile("./schema.graphql", "utf-8");
-const server = new ApolloServer({ typeDefs, resolvers });
+const context = ({ req }) => ({ auth: req.auth });
+const server = new ApolloServer({ typeDefs, resolvers, context });
 
 await server.start();
 
