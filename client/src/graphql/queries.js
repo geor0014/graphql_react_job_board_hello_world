@@ -1,8 +1,13 @@
-import { gql } from "@apollo/client";
+import { ApolloClient, gql, InMemoryCache } from "@apollo/client";
 import { request } from "graphql-request";
 import { getAccessToken } from "../auth.js";
 
 const GRAPHQL_URL = "http://localhost:9000/graphql";
+
+const client = new ApolloClient({
+  uri: GRAPHQL_URL,
+  cache: new InMemoryCache(),
+});
 
 export async function getJobs() {
   const query = gql`
@@ -16,7 +21,10 @@ export async function getJobs() {
       }
     }
   `;
-  const { jobs } = await request(GRAPHQL_URL, query);
+  // we use nested destructuring to get the jobs array from the data object
+  const {
+    data: { jobs },
+  } = await client.query({ query });
   return jobs;
 }
 
