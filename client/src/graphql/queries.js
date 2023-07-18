@@ -81,6 +81,15 @@ export async function createJob(input) {
   `;
   const variables = { input };
   const headers = { Authorization: "Bearer " + getAccessToken() };
-  const { job } = await request(GRAPHQL_URL, mutation, variables, headers);
+
+  const {
+    data: { job },
+  } = await client.mutate({
+    mutation,
+    variables,
+    context: {
+      headers,
+    },
+  });
   return job;
 }
