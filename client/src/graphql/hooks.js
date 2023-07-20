@@ -1,4 +1,4 @@
-import { JOBS_QUERY } from "../graphql/queries";
+import { JOBS_QUERY, COMPANY_QUERY } from "../graphql/queries";
 import { useQuery } from "@apollo/client";
 
 export function useJobs() {
@@ -8,6 +8,18 @@ export function useJobs() {
 
   return {
     jobs: data?.jobs,
+    loading,
+    error: Boolean(error),
+  };
+}
+
+export function useCompany(id) {
+  const { data, loading, error } = useQuery(COMPANY_QUERY, {
+    variables: { id },
+  });
+
+  return {
+    company: data?.company,
     loading,
     error: Boolean(error),
   };
