@@ -1,5 +1,4 @@
 import { ApolloClient, gql, InMemoryCache } from "@apollo/client";
-
 const GRAPHQL_URL = "http://localhost:9000/graphql";
 
 export const client = new ApolloClient({
